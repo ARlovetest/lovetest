@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Your Love Story 💖 | AR Love Tester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #ff99cc;
+            --accent: #d23369;
+            --dark: #5a2a3e;
+            --light: #fff5f9;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff5f9, #ffebf3);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+        }
+
+        #nav-menu {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.9rem;
+            padding: 5px 8px;
+        }
+
+        nav ul li a i {
+            font-size: 0.8rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 10px 60px;
+            position: relative;
+        }
+        
+        .hearts-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff4d8d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat;
+            background-size: contain;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0.6; }
+            50% { transform: translateY(-60px) rotate(180deg) scale(1); opacity: 0.9; }
+            100% { transform: translateY(-120px) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+        
+        .story-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 25px 20px;
+            width: 95%;
+            max-width: 600px;
+            box-shadow: 0 8px 25px rgba(255, 102, 179, 0.15);
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 102, 179, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            margin: 0 auto;
+        }
+        
+        .couple-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .couple-names {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin: 10px 0;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .love-score {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .story-chapter {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 102, 179, 0.3);
+        }
+        
+        .chapter-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .chapter-content {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .prediction {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 500;
+            border-left: 4px solid gold;
+        }
+        
+        .story-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+        
+        .story-btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 102, 179, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .story-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 102, 179, 0.6);
+        }
+        
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0 10px;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .footer-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--dark);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            #nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            #nav-menu.show {
+                max-height: 300px;
+                padding: 10px 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 5px;
+                padding: 0 15px;
+            }
+
+            nav ul li a {
+                padding: 8px 12px;
+                width: 100%;
+            }
+            
+            .couple-names {
+                font-size: 1.6rem;
+            }
+            
+            .story-container {
+                padding: 20px 15px;
+            }
+            
+            .story-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff4d8d'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>" alt="Love Tester Logo" class="logo-img">
+                <span class="logo-text">AR Love Tester</span>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="couple.html"><i class="fas fa-info-circle"></i> Couple</a></li>
+                    <li><a href="result.html"><i class="fas fa-heart"></i>Results</a></li>
+                    <li class="active"><a href="story.html"><i class="fas fa-book-open"></i> Story</a></li>
+                    <li><a href="content.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="hearts-bg">
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+        </div>
+        
+        <div class="story-container" id="storyContainer">
+            <!-- Story content will be loaded here -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">AR Love Tester</div>
+            <p class="copyright">© 2023 AR Love Tester. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--primary);"></i></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedResult = localStorage.getItem('loveTestResult');
+            const storyContainer = document.getElementById('storyContainer');
+            
+            if (savedResult) {
+                const result = JSON.parse(savedResult);
+                displayLoveStory(result);
+            } else {
+                storyContainer.innerHTML = `
+                    <div style="text-align:center; padding: 30px 0;">
+                        <h2>No Love Story Found</h2>
+                        <p>Please complete the love test first to see your personalized love story.</p>
+                        <button class="story-btn" onclick="window.location.href='index.html'">
+                            <i class="fas fa-heart"></i> Take Love Test
+                        </button>
+                    </div>
+                `;
+            }
+            
+            // Mobile menu toggle
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                document.getElementById('nav-menu').classList.toggle('show');
+            });
+        });
+
+        function displayLoveStory(result) {
+            const ageGap = Math.abs(result.playerAge - result.partnerAge);
+            const heightDiff = Math.abs(result.playerHeight - result.partnerHeight);
+            const isHighlyCompatible = result.affection >= 80;
+            const isModeratelyCompatible = result.affection >= 60;
+            
+            const storyContainer = document.getElementById('storyContainer');
+            
+            storyContainer.innerHTML = `
+                <div class="couple-header">
+                    <h1 class="couple-names">${result.playerName} & ${result.partnerName}</h1>
+                    <div class="love-score">
+                        Love Score: <span style="color: ${result.isTrueLove ? 'var(--primary)' : 'var(--danger)'}">${result.affection}%</span>
+                    </div>
+                </div>
+                
+                <div class="story-chapter">
+                    <h2 class="chapter-title">How You Met</h2>
+                    <p class="chapter-content">
+                        From the moment ${result.playerName} and ${result.partnerName} first met, there was ${isHighlyCompatible ? 'an instant spark' : isModeratelyCompatible ? 'a curious connection' : 'an interesting dynamic'} between them. 
+                        ${result.ageGap <= 5 ? 'Being close in age helped them relate to each other easily.' : 'Despite their age difference, they found common ground.'}
+                    </p>
+                </div>
+                
+                <div class="story-chapter">
+                    <h2 class="chapter-title">The Connection</h2>
+                    <p class="chapter-content">
+                        ${result.partnerName} has ${result.sameCaste ? 'shared cultural background' : 'a different background'} that ${result.sameCaste ? 'strengthens' : 'adds interesting dimensions to'} their bond. 
+                        Their physical compatibility is ${result.heightDiff <= 10 ? 'perfect' : 'unique'}, with ${result.playerName} being ${result.playerHeight}cm and ${result.partnerName} at ${result.partnerHeight}cm.
+                    </p>
+                </div>
+                
+                <div class="story-chapter">
+                    <h2 class="chapter-title">Special Moments</h2>
+                    <p class="chapter-content">
+                        Some of their most memorable moments include ${generateSpecialMoments(result.partnerName)}. 
+                        ${result.partnerName} has shown time and again that they ${result.isTrueLove ? 'truly care' : 'might care'} through ${result.isTrueLove ? 'countless thoughtful gestures' : 'occasional kind acts'}.
+                    </p>
+                </div>
+                
+                <div class="story-chapter">
+                    <h2 class="chapter-title">Future Together</h2>
+                    <p class="chapter-content">
+                        Looking ahead, ${result.playerName} and ${result.partnerName} have ${result.isTrueLove ? 'a bright future' : 'challenges to overcome'}. 
+                        Their love score of <span class="highlight">${result.affection}%</span> suggests ${getFuturePotential(result.affection)}.
+                    </p>
+                </div>
+                
+                <div class="prediction">
+                    ${getMarriagePrediction(result.affection)}
+                </div>
+                
+                <div class="story-actions">
+                    <button class="story-btn" onclick="window.location.href='index.html'">
+                        <i class="fas fa-redo"></i> Test Again
+                    </button>
+                    <button class="story-btn" onclick="window.location.href='result.html'">
+                        <i class="fas fa-chart-bar"></i> View Results
+                    </button>
+                </div>
+            `;
+        }
+
+        function generateSpecialMoments(partnerName) {
+            const moments = [
+                `long conversations that lasted until sunrise`,
+                `spontaneous adventures that brought them closer`,
+                `quiet moments where words weren't needed`,
+                `laughter that filled the room with joy`,
+                `support during difficult times that strengthened their bond`,
+                `shared dreams that built their connection`,
+                `small gestures that meant the world`
+            ];
+            return moments[Math.floor(Math.random() * moments.length)];
+        }
+
+        function getFuturePotential(score) {
+            if (score >= 90) return "an exceptionally strong foundation for lasting love";
+            if (score >= 80) return "great potential for a beautiful relationship";
+            if (score >= 70) return "good possibilities if both partners work at it";
+            if (score >= 60) return "some potential that needs nurturing";
+            return "significant challenges that would require effort to overcome";
+        }
+
+        function getMarriagePrediction(score) {
+            if (score >= 90) {
+                return "✨ Divine Destiny ✨<br>Your connection is blessed by Allah. Marriage with your partner is almost certain, InshaAllah!";
+            } else if (score >= 80) {
+                return "🌟 Strong Possibility 🌟<br>Your marriage will most likely be with your partner if you both continue on this path, InshaAllah.";
+            } else if (score >= 70) {
+                return "💫 Potential Blessing 💫<br>May Allah bless you with marriage to your partner if it is good for you both. Ameen!";
+            } else if (score >= 60) {
+                return "🌙 Uncertain Future 🌙<br>Your marriage might happen if you both work on strengthening your relationship and make sincere dua.";
+            } else {
+                return "🕯️ Needs Effort 🕯️<br>Focus on improving your connection and seek Allah's guidance for your future together.";
+            }
+        }
+    </script>
+</body>
+</html>
