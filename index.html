@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>True Love or Fake Love Test 💖 | AR Love Tester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #ff99cc;
+            --accent: #d23369;
+            --dark: #5a2a3e;
+            --light: #fff5f9;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff5f9, #ffebf3);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        /* ==== Header Styles ==== */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+        }
+
+        /* ==== Mobile Navigation ==== */
+        #nav-menu {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.9rem;
+            padding: 5px 8px;
+        }
+
+        nav ul li a i {
+            font-size: 0.8rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* ==== Main Content ==== */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 10px 60px;
+            position: relative;
+        }
+        
+        .hearts-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff4d8d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat;
+            background-size: contain;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            animation: float 15s infinite linear;
+        }
+        
+        .heart:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { top: 70%; left: 20%; animation-delay: 2s; }
+        .heart:nth-child(3) { top: 30%; left: 80%; animation-delay: 4s; }
+        .heart:nth-child(4) { top: 60%; left: 60%; animation-delay: 6s; }
+        .heart:nth-child(5) { top: 20%; left: 50%; animation-delay: 8s; }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0.6; }
+            50% { transform: translateY(-60px) rotate(180deg) scale(1); opacity: 0.9; }
+            100% { transform: translateY(-120px) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+        
+        .game-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 20px 15px;
+            width: 95%;
+            max-width: 500px;
+            box-shadow: 0 8px 25px rgba(255, 102, 179, 0.15);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 102, 179, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            margin: 0 auto;
+        }
+        
+        .couple-photo {
+            position: relative;
+            margin: -70px auto 15px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 4px;
+            box-shadow: 0 6px 15px rgba(255, 102, 179, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .couple-photo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+        
+        .badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary);
+        }
+        
+        .badge i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            margin: 8px 0 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .true {
+            color: var(--primary);
+        }
+        
+        .fake {
+            color: var(--danger);
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            opacity: 0.8;
+            font-weight: 400;
+        }
+        
+        .welcome-message {
+            padding: 10px 0;
+        }
+        
+        .welcome-message p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .romantic-btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 102, 179, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .romantic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .romantic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 102, 179, 0.6);
+        }
+        
+        .romantic-btn:hover::before {
+            left: 100%;
+        }
+        
+        .story-display {
+            min-height: 80px;
+            font-size: 0.95rem;
+            margin: 15px 0;
+            line-height: 1.6;
+            padding: 12px;
+            background: rgba(255, 102, 179, 0.08);
+            border-radius: 10px;
+            border: 1px dashed rgba(255, 102, 179, 0.3);
+            text-align: left;
+            color: var(--dark);
+        }
+        
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .choice-btn {
+            background: rgba(255, 102, 179, 0.1);
+            border: 1px solid rgba(255, 102, 179, 0.3);
+            color: var(--dark);
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .choice-btn i {
+            color: var(--primary);
+            font-size: 0.8rem;
+            min-width: 16px;
+        }
+        
+        .choice-btn:hover {
+            background: rgba(255, 102, 179, 0.2);
+            transform: translateX(3px);
+            border-color: var(--primary);
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid rgba(255, 102, 179, 0.3);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        
+        .input-submit {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .input-submit:hover {
+            opacity: 0.9;
+        }
+        
+        .stats {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .score {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        #progressBar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 102, 179, 0.15);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        #progressFill {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #progressFill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                          rgba(255,255,255,0.1) 0%, 
+                          rgba(255,255,255,0.3) 50%, 
+                          rgba(255,255,255,0.1) 100%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Badges Container */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .love-badge {
+            background: white;
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 102, 179, 0.2);
+            transition: all 0.3s;
+            font-size: 0.75rem;
+        }
+        
+        .love-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 102, 179, 0.15);
+        }
+        
+        .badge-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+        }
+        
+        .badge-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .flower-decoration {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            bottom: -6px;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .flower {
+            width: 40px;
+            opacity: 0.7;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+        }
+        
+        .flower:first-child {
+            transform: rotate(-30deg);
+        }
+        
+        .flower:last-child {
+            transform: rotate(30deg);
+        }
+        
+        /* Result Styles */
+        .true-love-result {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .fake-love-result {
+            color: var(--danger);
+            margin-bottom: 10px;
+        }
+        
+        .detail-result {
+            text-align: left;
+            margin: 15px 0;
+        }
+        
+        .detail-result p {
+            margin-bottom: 8px;
+        }
+        
+        .detail-result span {
+            font-weight: 600;
+        }
+        
+        .result-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 10px auto;
+            border: 3px solid var(--primary);
+        }
+        
+        /* ==== Footer Styles ==== */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0 10px;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .footer-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-links a i {
+            font-size: 0.7rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .social-links a {
+            color: var(--dark);
+            background: rgba(255, 102, 179, 0.1);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .social-links a:hover {
+            color: white;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--dark);
+            opacity: 0.7;
+        }
+        
+        /* ==== Mobile Menu Styles ==== */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            #nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            #nav-menu.show {
+                max-height: 300px;
+                padding: 10px 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 5px;
+                padding: 0 15px;
+            }
+
+            nav ul li a {
+                padding: 8px 12px;
+                width: 100%;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .game-container {
+                padding: 18px 12px;
+            }
+            
+            .couple-photo {
+                width: 100px;
+                height: 100px;
+                margin-top: -60px;
+            }
+            
+            .title {
+                font-size: 1.4rem;
+            }
+            
+            .story-display {
+                min-height: 70px;
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+            
+            .choice-btn {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .romantic-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .badges-container {
+                gap: 6px;
+            }
+            
+            .love-badge {
+                padding: 5px 6px;
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .footer-logo {
+                font-size: 1.2rem;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-links a {
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* ==== Larger Screens ==== */
+        @media (min-width: 768px) {
+            main {
+                padding: 90px 15px 60px;
+            }
+            
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-img {
+                height: 36px;
+            }
+            
+            .game-container {
+                padding: 25px 20px;
+                border-radius: 16px;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .couple-photo {
+                width: 140px;
+                height: 140px;
+                margin-top: -80px;
+            }
+            
+            .badge {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .badge i {
+                font-size: 1rem;
+            }
+            
+            .romantic-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .love-badge {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .badge-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff4d8d'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>" alt="Love Tester Logo" class="logo-img">
+                <span class="logo-text">AR Love Tester</span>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <nav id="nav-menu">
+                <ul>
+                    <li class="active"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="couple.html"><i class="fas fa-info-circle"></i> Couple</a></li>
+                    <li><a href="story.html"><i class="fas fa-heart"></i> Story</a></li>
+                    <li><a href="result.html"><i class="fas fa-chart-bar"></i> Results</a></li>
+                    <li><a href="content.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="hearts-bg">
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+        </div>
+        
+        <div class="game-container">
+            <div class="couple-photo">
+                <img src="Alif Matrimony (@AlifMatrimony) on X.jpeg" alt="Happy Couple">
+                <div class="badge">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <h1 class="title">Is Your Love <span class="true">True</span> or <span class="fake">Fake</span>?</h1>
+            <p class="subtitle">Discover the truth about your relationship with our scientific love analysis</p>
+            
+            <div class="badges-container">
+                <div class="love-badge">
+                    <div class="badge-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="badge-text">Accurate Results</span>
+                </div>
+                <div class="love-badge">
+                    <div class="badge-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <span class="badge-text">Private & Secure</span>
+                </div>
+                <div class="love-badge">
+                    <div class="badge-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="badge-text">Trusted by Millions</span>
+                </div>
+            </div>
+            
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-message">
+                    <p>Our advanced love compatibility test analyzes your relationship dynamics to determine if your connection is built to last. Answer honestly for the most accurate results.</p>
+                    <button id="startBtn" class="romantic-btn">
+                        <i class="fas fa-heart"></i> Begin Love Test
+                    </button>
+                </div>
+            </div>
+            
+            <div class="game-screen" id="gameScreen" style="display:none;">
+                <div class="story-display" id="storyText">
+                    Let's begin your love journey...
+                </div>
+                <div class="choices-container" id="choicesContainer">
+                    <!-- Choices will be added by JavaScript -->
+                </div>
+                <div class="stats">
+                    <span id="affectionMeter">❤️ Love Score: <span class="score">50%</span></span>
+                </div>
+                <div id="progressBar">
+                    <div id="progressFill"></div>
+                </div>
+            </div>
+            
+            <div class="flower-decoration">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23ff4d8d' d='M50 20a5 5 0 0 1 5 5v10h10a5 5 0 0 1 0 10H55v10a5 5 0 0 1-10 0V45H35a5 5 0 0 1 0-10h10V25a5 5 0 0 1 5-5z'/><circle cx='20' cy='20' r='10' fill='%23ff99cc'/><circle cx='80' cy='20' r='10' fill='%23ff99cc'/><circle cx='20' cy='80' r='10' fill='%23ff99cc'/><circle cx='80' cy='80' r='10' fill='%23ff99cc'/></svg>" class="flower">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23ff4d8d' d='M50 20a5 5 0 0 1 5 5v10h10a5 5 0 0 1 0 10H55v10a5 5 0 0 1-10 0V45H35a5 5 0 0 1 0-10h10V25a5 5 0 0 1 5-5z'/><circle cx='20' cy='20' r='10' fill='%23ff99cc'/><circle cx='80' cy='20' r='10' fill='%23ff99cc'/><circle cx='20' cy='80' r='10' fill='%23ff99cc'/><circle cx='80' cy='80' r='10' fill='%23ff99cc'/></svg>" class="flower">
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">AR Love Tester</div>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a>
+                <a href="#"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="#"><i class="fas fa-phone-alt"></i> Contact Us</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p class="copyright">© 2023 AR Love Tester. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--primary);"></i></p>
+        </div>
+    </footer>
+
+    <script>
+        // Game state
+        const gameState = {
+            currentScene: 0,
+            affection: 50,
+            isTrueLove: null,
+            playerName: "",
+            partnerName: "",
+            playerAge: 0,
+            partnerAge: 0,
+            playerHeight: 0,
+            partnerHeight: 0,
+            sameCaste: null
+        };
+
+        // All game scenes
+        const scenes = [
+            {
+                text: "What is your name?",
+                input: true,
+                inputType: "text",
+                inputPrompt: "Your Name",
+                action: (input) => { gameState.playerName = input; }
+            },
+            {
+                text: (state) => `What is ${state.playerName}'s partner's name?`,
+                input: true,
+                inputType: "text",
+                inputPrompt: "Their Name",
+                action: (input) => { gameState.partnerName = input; }
+            },
+            {
+                text: "How old are you?",
+                input: true,
+                inputType: "number",
+                inputPrompt: "Your Age",
+                action: (input) => { gameState.playerAge = parseInt(input); }
+            },
+            {
+                text: (state) => `How old is ${state.partnerName}?`,
+                input: true,
+                inputType: "number",
+                inputPrompt: "Their Age",
+                action: (input) => { gameState.partnerAge = parseInt(input); }
+            },
+            {
+                text: "What is your height (in cm)?",
+                input: true,
+                inputType: "number",
+                inputPrompt: "Your Height (cm)",
+                action: (input) => { gameState.playerHeight = parseInt(input); }
+            },
+            {
+                text: (state) => `What is ${state.partnerName}'s height (in cm)?`,
+                input: true,
+                inputType: "number",
+                inputPrompt: "Their Height (cm)",
+                action: (input) => { gameState.partnerHeight = parseInt(input); }
+            },
+            {
+                text: "Is your partner from the same caste?",
+                choices: [
+                    { 
+                        text: "Yes, same caste.", 
+                        affection: +10, 
+                        action: () => { gameState.sameCaste = true; } 
+                    },
+                    { 
+                        text: "No, different caste.", 
+                        affection: -5, 
+                        action: () => { gameState.sameCaste = false; } 
+                    }
+                ]
+            },
+            {
+                text: "Does your partner remember small details about you?",
+                choices: [
+                    { text: "Always! They surprise me with little things. 💖", affection: +20 },
+                    { text: "Sometimes, but not always.", affection: +5 },
+                    { text: "No, they forget important things. 💔", affection: -15 }
+                ]
+            },
+            {
+                text: "How do they react when you're upset?",
+                choices: [
+                    { text: "They comfort me and try to understand. 💖", affection: +20 },
+                    { text: "They listen but don't always know what to say.", affection: +5 },
+                    { text: "They ignore me or get annoyed. 💔", affection: -20 }
+                ]
+            },
+            {
+                text: "Do they make time for you, even when busy?",
+                choices: [
+                    { text: "Yes, they always prioritize me. 💖", affection: +20 },
+                    { text: "Sometimes, but often cancel plans.", affection: 0 },
+                    { text: "No, they're always 'too busy'. 💔", affection: -20 }
+                ]
+            },
+            {
+                text: "How do they talk about you to others?",
+                choices: [
+                    { text: "With pride and love. 💖", affection: +15 },
+                    { text: "Normally, nothing special.", affection: 0 },
+                    { text: "They rarely mention me. 💔", affection: -10 }
+                ]
+            }
+        ];
+
+        // DOM elements
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const storyDisplay = document.getElementById('storyText');
+        const choicesContainer = document.getElementById('choicesContainer');
+        const affectionMeter = document.getElementById('affectionMeter');
+        const progressFill = document.getElementById('progressFill');
+        const startBtn = document.getElementById('startBtn');
+
+        // Initialize game
+        function initGame() {
+            gameState.currentScene = 0;
+            gameState.affection = 50;
+            gameState.isTrueLove = null;
+            updateAffectionMeter();
+            updateScene();
+        }
+
+        // Update scene display
+        function updateScene() {
+            const scene = scenes[gameState.currentScene];
+            
+            if (typeof scene.text === 'function') {
+                storyDisplay.innerHTML = scene.text(gameState);
+            } else {
+                storyDisplay.innerHTML = scene.text;
+            }
+            
+            choicesContainer.innerHTML = '';
+            
+            if (scene.input) {
+                choicesContainer.innerHTML = `
+                    <input type="${scene.inputType}" id="nameInput" placeholder="${scene.inputPrompt}" class="input-field">
+                    <button id="submitInput" class="input-submit">Submit</button>
+                `;
+                document.getElementById('submitInput').addEventListener('click', () => {
+                    const input = document.getElementById('nameInput').value.trim();
+                    if (input) {
+                        scene.action(input);
+                        nextScene();
+                    }
+                });
+                return;
+            }
+            
+            scene.choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.innerHTML = choice.text;
+                button.addEventListener('click', () => {
+                    if (choice.affection) {
+                        gameState.affection = Math.max(0, Math.min(100, gameState.affection + choice.affection));
+                        updateAffectionMeter();
+                    }
+                    if (choice.action) choice.action();
+                    nextScene();
+                });
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        // Update affection meter
+        function updateAffectionMeter() {
+            progressFill.style.width = `${gameState.affection}%`;
+            let heartColor;
+            if (gameState.affection < 30) {
+                heartColor = "💔";
+            } else if (gameState.affection < 70) {
+                heartColor = "❤️";
+            } else {
+                heartColor = "💖";
+            }
+            affectionMeter.innerHTML = `${heartColor} Love Score: <span class="score">${gameState.affection}%</span>`;
+        }
+
+        // Move to next scene
+        function nextScene() {
+            gameState.currentScene++;
+            if (gameState.currentScene >= scenes.length) {
+                showFinalResult();
+            } else {
+                updateScene();
+            }
+        }
+
+        // Calculate and show final result
+function showFinalResult() {
+    // Age compatibility (+10% if age gap < 5 years)
+    const ageGap = Math.abs(gameState.playerAge - gameState.partnerAge);
+    if (ageGap <= 5) gameState.affection += 10;
+    
+    // Height compatibility (+5% if similar height)
+    const heightDiff = Math.abs(gameState.playerHeight - gameState.partnerHeight);
+    if (heightDiff <= 10) gameState.affection += 5;
+    
+    // Ensure score is between 0-100
+    gameState.affection = Math.max(0, Math.min(100, gameState.affection));
+    gameState.isTrueLove = gameState.affection >= 70;
+    
+    // Save results to localStorage with timestamp
+    const resultToSave = {
+        isTrueLove: gameState.isTrueLove,
+        affection: gameState.affection,
+        playerName: gameState.playerName,
+        partnerName: gameState.partnerName,
+        playerAge: gameState.playerAge,
+        partnerAge: gameState.partnerAge,
+        playerHeight: gameState.playerHeight,
+        partnerHeight: gameState.partnerHeight,
+        sameCaste: gameState.sameCaste,
+        timestamp: new Date().getTime(),
+        ageGap: ageGap,
+        heightDiff: heightDiff
+    };
+    
+    localStorage.setItem('loveTestResult', JSON.stringify(resultToSave));
+    
+    // Display result on index.html
+    displayResultOnIndex(resultToSave);
+    
+    // If coming from results page, update results.html as well
+    if (window.location.search.includes('fromResults=true')) {
+        updateResultsPage(resultToSave);
+    }
+}
+
+// Display result on index.html
+function displayResultOnIndex(result) {
+    const ageGapText = result.ageGap <= 5 ? "Perfect match!" : "Small age gap";
+    const heightDiffText = result.heightDiff <= 10 ? "Great match!" : "Different heights";
+    const casteText = result.sameCaste ? "Same caste" : "Different caste (Love marriage)";
+    
+    if (result.isTrueLove) {
+        storyDisplay.innerHTML = `
+            <h2 class="true-love-result">💖 SACHA PYAR! 💖</h2>
+            <p>Congratulations! ${result.partnerName} truly loves you!</p>
+            <div class="detail-result">
+                <p><span>Love Score:</span> ${result.affection}%</p>
+                <p><span>Age Compatibility:</span> ${ageGapText}</p>
+                <p><span>Height Compatibility:</span> ${heightDiffText}</p>
+                <p><span>Caste:</span> ${casteText}</p>
+            </div>
+            <div class="result-actions">
+                <button class="romantic-btn" onclick="window.location.href='result.html'">
+                    <i class="fas fa-chart-bar"></i> View Detailed Results
+                </button>
+                <button class="romantic-btn" onclick="resetTest()">
+                    <i class="fas fa-redo"></i> Test Again
+                </button>
+            </div>
+        `;
+    } else {
+        storyDisplay.innerHTML = `
+            <h2 class="fake-love-result">💔 NAKLI PYAR? 💔</h2>
+            <p>${result.partnerName} may not be fully sincere...</p>
+            <div class="detail-result">
+                <p><span>Love Score:</span> ${result.affection}%</p>
+                <p><span>Age Compatibility:</span> ${ageGapText}</p>
+                <p><span>Height Compatibility:</span> ${heightDiffText}</p>
+                <p><span>Caste:</span> ${casteText}</p>
+            </div>
+            <div class="result-actions">
+                <button class="romantic-btn" onclick="window.location.href='result.html'">
+                    <i class="fas fa-chart-bar"></i> View Detailed Results
+                </button>
+                <button class="romantic-btn" onclick="resetTest()">
+                    <i class="fas fa-redo"></i> Test Again
+                </button>
+            </div>
+        `;
+    }
+    
+    choicesContainer.innerHTML = '';
+}
+
+// Update results.html page (if open in another tab)
+function updateResultsPage(result) {
+    // This would work if results.html is open in another tab
+    if (typeof BroadcastChannel !== 'undefined') {
+        const channel = new BroadcastChannel('loveTestResults');
+        channel.postMessage({
+            type: 'UPDATE_RESULTS',
+            data: result
+        });
+    }
+    
+    // Alternatively, trigger a storage event
+    localStorage.setItem('loveTestUpdateTrigger', Date.now());
+}
+
+// Reset the test
+function resetTest() {
+    localStorage.removeItem('loveTestResult');
+    location.reload();
+}
+
+// Listen for updates from other tabs
+if (typeof BroadcastChannel !== 'undefined') {
+    const channel = new BroadcastChannel('loveTestResults');
+    channel.addEventListener('message', (event) => {
+        if (event.data.type === 'UPDATE_RESULTS') {
+            displayResultOnIndex(event.data.data);
+        }
+    });
+}
+
+// Listen for localStorage changes
+window.addEventListener('storage', (event) => {
+    if (event.key === 'loveTestResult' || event.key === 'loveTestUpdateTrigger') {
+        const savedResult = localStorage.getItem('loveTestResult');
+        if (savedResult) {
+            displayResultOnIndex(JSON.parse(savedResult));
+        }
+    }
+});
+
+        // Start Button Click Handler
+        startBtn.addEventListener('click', function() {
+            welcomeScreen.style.display = 'none';
+            gameScreen.style.display = 'block';
+            initGame();
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('nav-menu').classList.toggle('show');
+        });
+        // Save results to localStorage
+const resultToSave = {
+    isTrueLove: gameState.isTrueLove,
+    affection: gameState.affection,
+    playerName: gameState.playerName,
+    partnerName: gameState.partnerName,
+    playerAge: gameState.playerAge,
+    partnerAge: gameState.partnerAge,
+    playerHeight: gameState.playerHeight,
+    partnerHeight: gameState.partnerHeight,
+    sameCaste: gameState.sameCaste
+};
+localStorage.setItem('loveTestResult', JSON.stringify(resultToSave));
+    </script>
+</body>
+</html>
