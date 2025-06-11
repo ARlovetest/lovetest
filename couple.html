@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple Photo Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #ff99cc;
+            --accent: #d23369;
+            --dark: #5a2a3e;
+            --light: #fff5f9;
+        }
+
+        body {
+            background-color: #ffe6f2;
+            color: #5a2a3e;
+            padding-top: 70px; /* Space for fixed header */
+        }
+
+        /* ===== Header Improvements ===== */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+        }
+
+        /* ===== Mobile Navigation ===== */
+        #nav-menu {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.9rem;
+            padding: 5px 8px;
+        }
+
+        nav ul li a i {
+            font-size: 0.8rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* ===== Gallery Container ===== */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #d23369;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== Gallery Grid ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .photo-gallery {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+
+        .photo-img.hidden {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .photo-nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 2;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: var(--dark);
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-gallery:hover .nav-btn {
+            opacity: 1;
+        }
+
+        .photo-info {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .photo-title {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #d23369;
+        }
+
+        .photo-date {
+            color: #8e4162;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.3s;
+            padding: 0;
+        }
+
+        .like-btn.liked {
+            color: #ff1493;
+        }
+
+        .photo-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+            width: 12px;
+            border-radius: 4px;
+        }
+
+        /* ===== Filter Controls ===== */
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 6px 15px;
+            background: #ff66b3;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .filter-btn:hover {
+            background: #ff1493;
+        }
+
+        .filter-btn.active {
+            background: #d23369;
+        }
+
+        /* ===== Fullscreen Overlay ===== */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .fullscreen-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .fullscreen-img {
+            max-width: 95%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 0 15px;
+            text-align: center;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .social-links a {
+            color: var(--dark);
+            background: rgba(255, 102, 179, 0.1);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: var(--dark);
+            opacity: 0.7;
+        }
+
+        /* ===== Mobile Breakpoints ===== */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .header-container {
+                padding: 0 10px;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            #nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                max-height: 0;
+                overflow: hidden;
+            }
+            
+            #nav-menu.show {
+                max-height: 300px;
+                padding: 10px 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 5px;
+                padding: 0 15px;
+            }
+            
+            nav ul li a {
+                padding: 8px 12px;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            
+            .photo-gallery {
+                height: 150px;
+            }
+            
+            .photo-info {
+                padding: 10px;
+            }
+            
+            .controls {
+                gap: 8px;
+            }
+            
+            .filter-btn {
+                padding: 5px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .footer-links {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-gallery {
+                height: 200px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff4d8d'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>" alt="Love Tester Logo" class="logo-img">
+                <span class="logo-text">AR Love Tester</span>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="active"><a href="couple.html"><i class="fas fa-info-circle"></i> Couple</a></li>
+                    <li><a href="story.html"><i class="fas fa-heart"></i> Story</a></li>
+                    <li><a href="result.html"><i class="fas fa-chart-bar"></i> Results</a></li>
+                    <li><a href="content.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="gallery-container">
+        <h1>Our Special Moments</h1>
+        
+        <div class="controls">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="travel">Travel</button>
+            <button class="filter-btn" data-filter="anniversary">Anniversary</button>
+            <button class="filter-btn" data-filter="daily">Daily Life</button>
+        </div>
+        
+        <div class="gallery" id="gallery">
+            <!-- Photos will be added by JavaScript -->
+        </div>
+    </div>
+
+    <div class="fullscreen-overlay" id="overlay">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <img src="" alt="" class="fullscreen-img" id="fullscreenImg">
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">AR Love Tester</div>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-shield-alt"></i> Privacy</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="#"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="#"><i class="fas fa-phone-alt"></i> Contact</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p class="copyright">© 2023 AR Love Tester. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--primary);"></i></p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced photo data with multiple images per card
+        const photoAlbums = [
+            {
+                id: 1,
+                title: "Beach Vacation",
+                date: "June 15, 2023",
+                category: "travel",
+                images: [
+                    "_ (1).jpeg",
+                    "_ (2).jpeg",
+                    "Sehar Mirza’s engagement.jpeg",
+                    "_ (3).jpeg"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+            {
+                id: 2,
+                title: "My Fate – Her Memory",
+                date: "March 22, 2023",
+                category: "anniversary",
+                images: [
+                    "_ (4).jpeg",
+                    "_ (5).jpeg",
+                    "Wedding veil+dress.jpeg",
+                    "_ (6).jpeg"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+            {
+                id: 3,
+                title: "Not Mine, Yet Forever",
+                date: "May 5, 2023",
+                category: "daily",
+                images: [
+                    "_ (7).jpeg",
+                    "_ (8).jpeg",
+                    "_ (9).jpeg"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+            {
+                id: 4,
+                title: "You, Me, and That Moment",
+                date: "July 30, 2023",
+                category: "travel",
+                images: [
+                    "_ (10).jpeg",
+                    "baywafa.png",
+                    "Rajab butt shadi.jpeg",
+                    "_ (11).jpeg"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+            {
+                id: 5,
+                title: "A Quiet Bond – A Voiceless Love",
+                date: "April 12, 2023",
+                category: "daily",
+                images: [
+                    "_ (12).jpeg",
+                    "_.jpeg",
+                    "Baat Pakki❤️✨.jpeg"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+            {
+                id: 6,
+                title: "Forever Felt, Never Held",
+                date: "March 22, 2024",
+                category: "anniversary",
+                images: [
+                    "❤️.jpeg",
+                    "❤️✨.jpeg",
+                    "Aayeza💞.jpeg"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+              {
+                id: 6,
+                title: "Half a Story – Whole a Heart",
+                date: "March 12, 2024",
+                category: "anniversary",
+                images: [
+                    "Hania Amir, Zaviyaar Nauman Ijaz.jpeg",
+                    "iqreeb wedding _iqra wedding _sistrology _sisters_wedding.jpeg",
+                    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            },
+            {
+                id: 3,
+                title: "Unspoken, Yet Understood",
+                date: "May 15, 2023",
+                category: "daily",
+                images: [
+                    "nikah.jpeg",
+                    "https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1076&q=80",
+                    "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+                ],
+                likes: 0,
+                currentImageIndex: 0
+            }
+            
+            
+        ];
+
+        // DOM elements
+        const gallery = document.getElementById('gallery');
+        const overlay = document.getElementById('overlay');
+        const fullscreenImg = document.getElementById('fullscreenImg');
+        const closeBtn = document.getElementById('closeBtn');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        // Display photo albums in gallery
+        function displayAlbums(filter = 'all') {
+            gallery.innerHTML = '';
+            
+            const filteredAlbums = filter === 'all' 
+                ? photoAlbums 
+                : photoAlbums.filter(album => album.category === filter);
+            
+            filteredAlbums.forEach(album => {
+                const photoCard = document.createElement('div');
+                photoCard.className = 'photo-card';
+                photoCard.dataset.category = album.category;
+                
+                // Create image elements for all images in the album
+                const imageElements = album.images.map((img, index) => {
+                    return `<img src="${img}" alt="${album.title} photo ${index + 1}" 
+                            class="photo-img ${index === 0 ? '' : 'hidden'}" 
+                            data-album-id="${album.id}" 
+                            data-img-index="${index}">`;
+                }).join('');
+                
+                photoCard.innerHTML = `
+                    <div class="photo-gallery">
+                        ${imageElements}
+                        <div class="photo-nav">
+                            <button class="nav-btn prev-btn" data-album-id="${album.id}">❮</button>
+                            <button class="nav-btn next-btn" data-album-id="${album.id}">❯</button>
+                        </div>
+                        <div class="photo-indicators">
+                            ${album.images.map((_, index) => 
+                                `<div class="indicator ${index === 0 ? 'active' : ''}" 
+                                      data-album-id="${album.id}" 
+                                      data-img-index="${index}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">${album.title}</h3>
+                        <p class="photo-date">${album.date}</p>
+                        <button class="like-btn" data-id="${album.id}">❤️ <span>${album.likes}</span></button>
+                    </div>
+                `;
+                
+                gallery.appendChild(photoCard);
+            });
+            
+            // Add event listeners to new elements
+            addEventListeners();
+        }
+
+        // Change image in an album
+        function changeAlbumImage(albumId, direction) {
+            const album = photoAlbums.find(a => a.id === albumId);
+            if (!album) return;
+            
+            let newIndex;
+            if (direction === 'next') {
+                newIndex = (album.currentImageIndex + 1) % album.images.length;
+            } else if (direction === 'prev') {
+                newIndex = (album.currentImageIndex - 1 + album.images.length) % album.images.length;
+            } else if (typeof direction === 'number') {
+                newIndex = direction;
+            }
+            
+            // Update the active image
+            const images = document.querySelectorAll(`.photo-img[data-album-id="${albumId}"]`);
+            const indicators = document.querySelectorAll(`.indicator[data-album-id="${albumId}"]`);
+            
+            images[album.currentImageIndex].classList.add('hidden');
+            indicators[album.currentImageIndex].classList.remove('active');
+            
+            images[newIndex].classList.remove('hidden');
+            indicators[newIndex].classList.add('active');
+            
+            album.currentImageIndex = newIndex;
+        }
+
+        // Add event listeners
+        function addEventListeners() {
+            // Like buttons
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.dataset.id);
+                    const album = photoAlbums.find(a => a.id === id);
+                    album.likes++;
+                    this.querySelector('span').textContent = album.likes;
+                    this.classList.add('liked');
+                });
+            });
+            
+            // Photo click for fullscreen
+            document.querySelectorAll('.photo-img').forEach(img => {
+                img.addEventListener('click', function() {
+                    fullscreenImg.src = this.src;
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Navigation buttons
+            document.querySelectorAll('.next-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const albumId = parseInt(this.dataset.albumId);
+                    changeAlbumImage(albumId, 'next');
+                });
+            });
+            
+            document.querySelectorAll('.prev-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const albumId = parseInt(this.dataset.albumId);
+                    changeAlbumImage(albumId, 'prev');
+                });
+            });
+            
+            // Indicators
+            document.querySelectorAll('.indicator').forEach(indicator => {
+                indicator.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const albumId = parseInt(this.dataset.albumId);
+                    const imgIndex = parseInt(this.dataset.imgIndex);
+                    changeAlbumImage(albumId, imgIndex);
+                });
+            });
+        }
+
+        // Filter albums
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                displayAlbums(this.dataset.filter);
+            });
+        });
+
+        // Close fullscreen
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Toggle mobile menu
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('show');
+            });
+        });
+
+        // Initialize gallery
+        displayAlbums();
+    </script>
+</body>
+</html>
