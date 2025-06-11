@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Love Story 💖 | AR Love Tester</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #ff99cc;
+            --accent: #d23369;
+            --dark: #5a2a3e;
+            --light: #fff5f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff5f9, #ffebf3);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Mobile Navigation */
+        #nav-menu {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 5px 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 80px 20px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .story-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(255, 102, 179, 0.15);
+            position: relative;
+            min-height: 400px;
+        }
+
+        .chapter {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .chapter.active {
+            display: block;
+        }
+
+        .chapter-title {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .chapter-text {
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chapter-indicator {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Footer Styles */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .footer-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--dark);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            #nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            #nav-menu.show {
+                max-height: 300px;
+                padding: 10px 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 5px;
+                padding: 0 15px;
+            }
+
+            main {
+                padding: 80px 15px 60px;
+            }
+
+            .story-content {
+                padding: 20px;
+                min-height: 350px;
+            }
+
+            .chapter-title {
+                font-size: 1.5rem;
+            }
+        }
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 100px 20px 60px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .story-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .story-subtitle {
+            font-size: 1rem;
+            color: var(--dark);
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .story-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(255, 102, 179, 0.15);
+            position: relative;
+        }
+
+        .chapter {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .chapter.active {
+            display: block;
+        }
+
+        .chapter-title {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .chapter-text {
+            margin-bottom: 30px;
+        }
+
+        .chapter-text p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .quote {
+            font-style: italic;
+            padding: 15px;
+            border-left: 3px solid var(--primary);
+            background: rgba(255, 77, 141, 0.05);
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff4d8d'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>" alt="Logo" class="logo-img">
+                <span class="logo-text">AR Love Tester</span>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="couple.html"><i class="fas fa-info-circle"></i> Couple</a></li>
+                    <li><a href="result.html"><i class="fas fa-heart"></i>Results</a></li>
+                    <li class="active"><a href="story.html"><i class="fas fa-book-open"></i> Story</a></li>
+                    <li><a href="content.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="story-header">
+            <h1 class="story-title">Fazilpur Ka Devdas</h1>
+            <p class="story-subtitle">A story of unrequited love, silent prayers, and healing</p>
+        </div>
+        
+        <div class="story-content">
+            <!-- Chapter 1 -->
+            <div class="chapter active" id="chapter1">
+                <h1 class="chapter-title">Chapter 1: The Beginning</h1>
+                <div class="chapter-text">
+                    <p>There was a village — small, dusty, full of dreams. It was called Fazilpur — where the sun touched the earth softly, and silence had stories to tell. There lived a boy — Aqib Javeed — not just another name, but a soul with unmatched purity.</p>
+                    
+                    <p>He walked humbly, spoke rarely, and prayed often. His heart? It belonged to Ruba Ghafar. Not just a girl — she was his world. The sky could've fallen, the earth could've cracked — but his love for her would've stayed still.</p>
+                    
+                    <div class="quote">
+                        "Ruba, meri mohabbat ka tohfa tera waqt tha, tu ne wo bhi le liya."
+                    </div>
+                    
+                    <p>He first saw her in the masjid courtyard — laughing with her sisters. That laugh pierced his chest. Not like an arrow — like sunlight breaking into a cold room. From that day, he smiled more. Not because she talked to him… But because she existed.</p>
+                    
+                    <p>He began helping her with studies. Books, notes, guidance — everything she needed, he offered. Without asking for anything in return. She called him "sir", he called her "dua". But in his heart, she was "Ruba Jaan".</p>
+                    
+                    <p>He never said it. Because love was never meant to be spoken loudly — not in villages. He'd bring her pens, teach her math, correct her essays. And in return, she gave him hope. But hope is a dangerous thing. One-sided love is a silent prayer. And silent prayers don't always get heard.</p>
+                </div>
+                
+                <div class="chapter-nav">
+                    <button class="nav-btn" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="nav-btn next-btn" data-next="chapter2">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-indicator">Chapter 1 of 5</div>
+            </div>
+            
+            <!-- Chapter 2 -->
+            <div class="chapter" id="chapter2">
+                <h1 class="chapter-title">Chapter 2: The Silence After Love</h1>
+                <div class="chapter-text">
+                    <p>After Ruba left, silence became Aqib's closest companion. Not just the absence of sound — but a haunting stillness that echoed in every room, every page, every street of Fazilpur.</p>
+                    
+                    <p>The seasons changed. The fields bloomed. New students came. But Aqib's eyes stayed lost in an old memory. He had every opportunity to move on. New girls noticed him. Friends pushed him to try again. But how do you replace something that was never possessed… only felt?</p>
+                    
+                    <div class="quote">
+                        "She taught me one last lesson — that love, when pure, asks for nothing. Not even acknowledgment."
+                    </div>
+                    
+                    <p>One evening, while walking back from the village library, he passed by Ruba's home. The gate was open. Children were playing. But her voice — the one that once called him "Sir" — was nowhere. He stopped for a moment. Then walked on.</p>
+                    
+                    <p>In the city, Aqib grew sharper. He built apps, cracked cybersecurity codes, won competitions. But no award ever made him smile the way Ruba's "thank you" used to. His classmates thought he was mysterious. Some called him cold. But none knew that his heart was buried in Fazilpur.</p>
+                    
+                    <p>One rainy evening, at a tech conference, as cameras flashed and crowds clapped, a journalist asked: "What's the secret behind your success?" He paused. Then smiled faintly: "A broken heart… and an unforgettable voice."</p>
+                </div>
+                
+                <div class="chapter-nav">
+                    <button class="nav-btn prev-btn" data-prev="chapter1"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="nav-btn next-btn" data-next="chapter3">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-indicator">Chapter 2 of 5</div>
+            </div>
+            
+            <!-- Chapter 3 -->
+            <div class="chapter" id="chapter3">
+                <h1 class="chapter-title">Chapter 3: The Return of the Unseen</h1>
+                <div class="chapter-text">
+                    <p>Time passed — like dry leaves carried by the wind. Fazilpur remained the same, but Aqib had changed. He wasn't just a village boy anymore; he was becoming a name in the tech world. His classmates admired him. Teachers praised him. But he still looked for one unread message — one unseen status… from Ruba.</p>
+                    
+                    <p>In his heart, her absence had become routine — like Fajr without light, like a prayer without reply. But then something happened.</p>
+                    
+                    <div class="quote">
+                        "I was your moon, Ruba. Not to shine… but to reflect your light."
+                    </div>
+                    
+                    <p>It was a cold December night. Aqib was in Lahore for a cybersecurity conference. He was the keynote speaker — graceful, confident, composed. When he finished, the audience clapped. But in the back row, one person didn't clap — she cried.</p>
+                    
+                    <p>It was Ruba. Wrapped in a simple shawl, eyes filled with regret, she waited till the crowd left. Aqib stepped down, calm as ever. Their eyes met after years. No greeting. Just silence — louder than ever.</p>
+                    
+                    <p>She walked closer. "You look... different," she whispered. "You too," he replied, looking away. "I didn't come to disturb your life," she said. "You already did that. Long ago."</p>
+                    
+                    <p>Her lips trembled. She sat down. "I was young… confused. I didn't know what love was." Aqib paused. Then said: "And I didn't know what betrayal felt like… until you."</p>
+                </div>
+                
+                <div class="chapter-nav">
+                    <button class="nav-btn prev-btn" data-prev="chapter2"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="nav-btn next-btn" data-next="chapter4">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-indicator">Chapter 3 of 5</div>
+            </div>
+            
+            <!-- Chapter 4 -->
+            <div class="chapter" id="chapter4">
+                <h1 class="chapter-title">Chapter 4: Jab Dard Muskurata Hai</h1>
+                <div class="chapter-text">
+                    <p>Aqib had returned to Fazilpur once again — this time not just for Eid, but for closure. The village was changing. New roads, more bikes, brighter houses… but his heart still searched for one old window, where Ruba used to stand.</p>
+                    
+                    <p>He passed by the masjid courtyard again, alone, as always. A few boys asked him for help with their math homework. He smiled, nodded, and sat under the same neem tree. The one where he once waited for hours — praying she'd show up.</p>
+                    
+                    <div class="quote">
+                        "Tere baad bhi zindagi thi,<br>
+                        Magar us zindagi mein tu nahi thi."
+                    </div>
+                    
+                    <p>That evening, a cousin whispered in his ear: "Ruba ki shaadi fix ho gayi hai… aglay mahine." The words hit him like a quiet slap. But his eyes didn't blink. He just said: "Allah naseeb acha kare." Then he left — not because it hurt too much, but because he'd already hurt enough in the past.</p>
+                    
+                    <p>That night, he visited his old study room. Books still smelled like memories. He opened the drawer — and there it was: The pen Ruba once returned with a "thank you" note. He held it. Not like a thing — but like a wound that had finally stopped bleeding.</p>
+                    
+                    <p>Later, he sat by his laptop, opened a blank file, and typed: "I was your moon, Ruba. Not to shine… but to reflect your light." He saved it, closed the file, and smiled softly.</p>
+                </div>
+                
+                <div class="chapter-nav">
+                    <button class="nav-btn prev-btn" data-prev="chapter3"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="nav-btn next-btn" data-next="chapter5">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-indicator">Chapter 4 of 5</div>
+            </div>
+            
+            <!-- Chapter 5 -->
+            <div class="chapter" id="chapter5">
+                <h1 class="chapter-title">Chapter 5: Jab Yaadein Zakhm Ban Jayein</h1>
+                <div class="chapter-text">
+                    <p>Monsoon had arrived in Fazilpur. When raindrops hit the earth, they brought back the memory of Ruba's laughter — a laughter that had long vanished somewhere into the past.</p>
+                    
+                    <p>Aqib was in the city, but his heart was still lost in that old village street — the one where Ruba used to take a different route home from school, just to avoid being seen by Aqib. That time had passed. But memories? They had only grown brighter in the dust of time.</p>
+                    
+                    <div class="quote">
+                        "You broke my heart…<br>
+                        Yet every day, I kept praying for you.<br>
+                        Is that foolishness too?"
+                    </div>
+                    
+                    <p>One evening, as the rain soaked his entire hostel, Aqib turned on his laptop camera. He was listening to old voice notes from Ruba… and then he found one he had never deleted: "Sir, you are really kind. I understand maths now. Thank you." In that simple "thank you", there was a whole universe. Aqib closed his eyes, and as the rain slid down the windows, tears rolled silently down his lashes.</p>
+                    
+                    <p>His friends in the city thought he was robotic — quiet, always working. But inside, a war raged every day: "Why can't I forget her… when she forgot me so easily?"</p>
+                    
+                    <p>On the next Eid, he returned to Fazilpur. He sat in the same corner of the mosque where Ruba's footsteps once echoed softly. A small girl came up to him and asked: "Are you the sir who used to teach my sister?" Aqib smiled and nodded. The girl walked away — but her words had stirred a quiet comfort inside him.</p>
+                    
+                    <p>That night, he wrote in his diary: "Ruba, you left me… But your memories shaped me." His pain was no longer a complaint. It had become a story — one he now hides behind every new smile.</p>
+                </div>
+                
+                <div class="chapter-nav">
+                    <button class="nav-btn prev-btn" data-prev="chapter4"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button class="nav-btn" disabled>Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-indicator">Chapter 5 of 5</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">AR Love Tester</div>
+            <p class="copyright">© 2023 AR Love Tester. Made with <i class="fas fa-heart" style="color: var(--primary);"></i></p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('nav-menu').classList.toggle('show');
+        });
+
+        // Chapter navigation
+        document.querySelectorAll('.next-btn, .prev-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const currentChapter = this.closest('.chapter');
+                const targetId = this.classList.contains('next-btn') ? 
+                    this.getAttribute('data-next') : 
+                    this.getAttribute('data-prev');
+                
+                currentChapter.classList.remove('active');
+                document.getElementById(targetId).classList.add('active');
+                
+                // Scroll to top of chapter
+                document.querySelector('.story-content').scrollTop = 0;
+            });
+        });
+    </script>
+</body>
+</html>
